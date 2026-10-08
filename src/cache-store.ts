@@ -65,7 +65,7 @@ export class CacheStore<TEntity extends { id: any }>
         }
 
         const keys = ids.map(
-            id => `${this.prefix}${id}`,
+            (id: string) => `${this.prefix}${id}`,
         );
 
         await this.client.del(...keys);
@@ -91,17 +91,17 @@ export class CacheStore<TEntity extends { id: any }>
         }
 
         const keys = ids.map(
-            id => `${this.prefix}${id}`,
+            (id: string) => `${this.prefix}${id}`,
         );
 
         const values = await this.client.mget(keys);
 
         return values
             .filter(
-                (value): value is string => value !== null,
+                (value: string | null): value is string => value !== null,
             )
             .map(
-                value => this.mapper.toDomain(JSON.parse(value)),
+                (value: string) => this.mapper.toDomain(JSON.parse(value)),
             );
     }
 }
